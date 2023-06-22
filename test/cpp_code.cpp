@@ -1,4 +1,5 @@
 #include <iostream>
+#include <unistd.h>
 
 // quick sort
 void quick_sort(int *arr, int left, int right) {
@@ -26,5 +27,7 @@ int main() {
   for (int i = 0; i < 6; i++)
     std::cout << arr[i] << " ";
   std::cout << std::endl;
+  std::cout << "Start sleep" << std::endl;
+  sleep(600);
   return 0;
 }

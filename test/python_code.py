@@ -1,3 +1,6 @@
+import time
+
+
 def func(**kwargs):
     for key, value in kwargs.items():
         print(key, value)
@@ -12,3 +15,5 @@ def make_incrementor(n):
 
 inc = make_incrementor(42)
 # print(inc(42)) # 84
+print("Start sleep.")
+time.sleep(60 * 10)

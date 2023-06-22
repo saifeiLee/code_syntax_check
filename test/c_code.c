@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <unistd.h>
 
 int sum(int a, int b) { return a + b; }
 
@@ -26,6 +27,7 @@ int main() {
   for (int i = 0; i < 5; i++) {
     printf("%d ", arr[i]);
   }
-  printf("\n");
+  printf("\n Start Sleep...\n");
+  sleep(600);
   return 0;
 }

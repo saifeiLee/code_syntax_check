@@ -48,8 +48,9 @@ def check_cpp():
 
 
 if __name__ == '__main__':
-    test_python()
-    test_js()
-    check_java()
-    check_c()
-    check_cpp()
+    for i in range(3):
+        test_python()
+        test_js()
+        check_java()
+        check_c()
+        check_cpp()

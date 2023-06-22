@@ -7,32 +7,45 @@ class SyntaxChecker():
 
     def check_python_syntax(self, code):
         try:
-            process = subprocess.run(['python3', '-c', code], timeout=5)
-            return process.returncode == 0
+            process = subprocess.run(
+                ['python3', '-c', code], stderr=subprocess.PIPE, timeout=5)
+            if process.returncode == 0:
+                return True, "Success"
+            else:
+                return False, process.stderr.decode('utf-8')
         except subprocess.TimeoutExpired:
-            return False
+            return False, "Timeout expired"
 
     def check_javascript_syntax(self, code):
         try:
             with open('temp.js', 'w') as f:
                 f.write(code)
-            process = subprocess.run(['node', '-c', 'temp.js'], timeout=5)
-            return process.returncode == 0
+            process = subprocess.run(
+                ['node', '-c', 'temp.js'], stderr=subprocess.PIPE, timeout=5)
+            if process.returncode == 0:
+                return True, "Success"
+            else:
+                return False, process.stderr.decode('utf-8')
         except subprocess.TimeoutExpired:
-            return False
+            return False, "Timeout expired"
         finally:
             os.remove('temp.js')
 
     def check_java_syntax(self, code):
-        # temp = tempfile.NamedTemporaryFile(suffix='.java')
-        java_file_name = 'java_code.java'
+        temp = tempfile.NamedTemporaryFile(suffix='.java', delete=False)
+        # java_file_name = 'java_code.java'
+        java_file_name = temp.name
         try:
             with open(java_file_name, 'w') as f:
                 f.write(code)
-            process = subprocess.run(['javac', java_file_name], timeout=5)
-            return process.returncode == 0
+            process = subprocess.run(
+                ['javac', java_file_name], stderr=subprocess.PIPE, timeout=5)
+            if process.returncode == 0:
+                return True, "Success"
+            else:
+                return False, process.stderr.decode('utf-8')
         except subprocess.TimeoutExpired:
-            return False
+            return False, "Timeout expired"
         finally:
             os.remove(java_file_name)
 
@@ -42,10 +55,13 @@ class SyntaxChecker():
             with open(temp.name, 'w') as f:
                 f.write(code)
             process = subprocess.run(
-                ['gcc', '-fsyntax-only', temp.name], timeout=5)
-            return process.returncode == 0
+                ['gcc', '-fsyntax-only', temp.name], stderr=subprocess.PIPE, timeout=5)
+            if process.returncode == 0:
+                return True, "Success"
+            else:
+                return False, process.stderr.decode('utf-8')
         except subprocess.TimeoutExpired:
-            return False
+            return False, "Timeout expired"
         finally:
             os.unlink(temp.name)
 
@@ -55,9 +71,12 @@ class SyntaxChecker():
             with open(temp.name, 'w') as f:
                 f.write(code)
             process = subprocess.run(
-                ['g++', '-fsyntax-only', temp.name], timeout=5)
-            return process.returncode == 0
+                ['g++', '-fsyntax-only', temp.name], stderr=subprocess.PIPE, timeout=5)
+            if process.returncode == 0:
+                return True, "Success"
+            else:
+                return False, process.stderr.decode('utf-8')
         except subprocess.TimeoutExpired:
-            return False
+            return False, "Timeout expired"
         finally:
             os.unlink(temp.name)
